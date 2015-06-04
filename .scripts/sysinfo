@@ -48,7 +48,7 @@ done &
 #Updates
 while :; do
 
-	$(sudo pacman -Syup > ~/.scripts/updates)
+	(sudo pacman -Syup | awk 'NR>6') > ~/.scripts/updates
 	num_updates=$(cat ~/.scripts/updates | wc -l)
 	echo 'u'"%{U#171717}%{B#171717}%{F$BYELLOW}  %{F$WHITE}$num_updates %{F-}%{B-}%{U-}" > "$PANEL_FIFO"
 	sleep 3600s	
