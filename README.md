@@ -1,2 +1,1 @@
-# Configs
-Configs
+Configs I used on my system. Feel free.
