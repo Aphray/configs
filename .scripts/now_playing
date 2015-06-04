@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#Displays current song. Ran by ncmpcpp on song change.
+
+. source
+
+while :; do
+	
+	song=$(mpc -f %title% | head -n 1)
+	artist=$(mpc -f %artist% | head -n 1)
+
+	if [[  ! -z "$(mpc current)" ]]; then
+		color=$BCYAN
+	elif [[ "$(mpc | awk 'NR==2{print$1}')" == "[paused]" ]]; then
+		color=$CYAN
+	else
+		artist="Nothing"
+		song="Playing"
+		color=$BRED
+	fi
+
+	echo 'M'"%{B$color}%{U$color}%{F$BLACK}%{+o}  %{U#262626}%{B#262626}%{F$color}%{T2} $artist% %{T1}%{U#1A1A1A}%{B#1A1A1A}%{F$WHITE} $song %{o-}%{B-}%{F-}" > "$PANEL_FIFO"
+	sleep 1s
+done
+
+

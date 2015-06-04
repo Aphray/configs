@@ -1,0 +1,56 @@
+#!/bin/bash
+
+. source
+
+#SysInfo
+while :; do
+
+	#Clock
+	day=$(date +%e)
+	month=$(date +%b)
+	time=$(date +%I:%M)
+	
+	#Battery
+	status=$(acpi | awk '{gsub(/,/,"");print$3}' )
+	perc=$(acpi | awk '{print$4}' | sed -e 's/%//g' -e 's/,//g')
+
+	if [[ "$status" == "Full" ]]; then
+		perc=""
+		color=$YELLOW
+		icon=
+	elif [[ "$perc" -ge 75 ]]; then
+		color=$BCYAN
+		icon=
+		perc="$perc "
+	elif [[ "$perc" -ge 50 && "$perc" -lt 75 ]]; then
+		color=$YELLOW
+		icon=
+		perc="$perc "
+	elif [[ "$perc" -ge 25 && "$perc" -lt 50 ]]; then
+		color=$BGREEN
+		icon=
+		perc="$perc "
+	else	
+		color=$BRED
+		icon=
+		perc="$perc "
+	fi
+	
+	#Wifi
+	essid=$(iwconfig wlp3s0 | awk -F":" 'NR==1{gsub(/"/,"");print$2}')
+	
+	echo 'S'"%{U#1F1F1F}%{B#1F1F1F}%{F$BLUE}  %{F$WHITE} $essid%{F-}%{B-}%{U-}\
+	%{U#262626}%{B#262626}%{F$color} $icon %{F-}%{U-}%{B-}\
+	%{U$BGREEN}%{B$BGREEN}%{F$WHITE} %{T2}$month%{T1}$day %{T2}$time%{T1} %{U-}%{B-}%{F-}" > "$PANEL_FIFO"
+	sleep 60s
+done &
+
+#Updates
+while :; do
+
+	$(sudo pacman -Syup > ~/.scripts/updates)
+	num_updates=$(cat ~/.scripts/updates | wc -l)
+	echo 'u'"%{U#171717}%{B#171717}%{F$BYELLOW}  %{F$WHITE}$num_updates %{F-}%{B-}%{U-}" > "$PANEL_FIFO"
+	sleep 3600s	
+done &
+	

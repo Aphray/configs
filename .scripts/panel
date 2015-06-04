@@ -1,0 +1,32 @@
+#! /bin/sh
+
+. source
+
+#VARIABLES
+HEIGHT=16
+
+FG=$WHITE
+BG=$BLACK
+
+#Checks to see if panel is running.
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+#Delete old pipe, make new one.
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+#Send bspwm info to the pipe
+bspc config top_padding $HEIGHT
+bspc control --subscribe > "$PANEL_FIFO" &
+xtitle -sf 'T%s' > "$PANEL_FIFO" &
+#clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
+
+#Run pipe through filter and draw onto Lemonbar.
+cat "$PANEL_FIFO" | filter | lemonbar -g x$HEIGHT -f $FONT -f $B_FONT -f $ICONFONT -B $BG -F $FG -u 3
+
+wait

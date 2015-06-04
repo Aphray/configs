@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#Script to grab colors, fonts, etc. from xresources.
+
+#Colors
+BLACK=$(xrdb -query | grep "color0:" | awk '{print$2}')
+BBLACK=$(xrdb -query | grep "color8:" | awk '{print$2}')
+
+RED=$(xrdb -query | grep "color1:" | awk '{print$2}')
+BRED=$(xrdb -query | grep "color9:" | awk '{print$2}')
+
+GREEN=$(xrdb -query | grep "color2:" | awk '{print$2}')
+BGREEN=$(xrdb -query | grep "color10:" | awk '{print$2}')
+
+YELLOW=$(xrdb -query | grep "color3:" | awk '{print$2}')
+BYELLOW=$(xrdb -query | grep "color11:" | awk '{print$2}')
+
+BLUE=$(xrdb -query | grep "color4:" | awk '{print$2}')
+BBLUE=$(xrdb -query | grep "color12:" | awk '{print$2}')
+
+MAGENTA=$(xrdb -query | grep "color5:" | awk '{print$2}')
+BMAGENTA=$(xrdb -query | grep "color13:" | awk '{print$2}')
+
+CYAN=$(xrdb -query | grep "color6:" | awk '{print$2}')
+BCYAN=$(xrdb -query | grep "color14:" | awk '{print$2}')
+
+WHITE=$(xrdb -query | grep "color7:" | awk '{print$2}')
+BWHITE=$(xrdb -query | grep "color15:" | awk '{print$2}')
+
+#Fonts
+FONT=$(xrdb -query | grep "font:" | awk '{print$2}')
+B_FONT=$(xrdb -query | grep "boldFont:" | awk '{print$2}')
+
+ICONFONT=-*-siji-medium-r-normal-*-10-*-*-*-*-*-*-*
+
