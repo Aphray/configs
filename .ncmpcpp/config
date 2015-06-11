@@ -1,6 +1,5 @@
-
 song_columns_list_format = "(4)[white]{n}(5)[white]{l}(20)[blue]{a}(30)[magenta]{t}(38)[white]{b}(4)[white]{y}"
-progressbar_look           = "───"
+progressbar_look = "───"
 visualizer_color = "red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red"
 #visualizer_color = "cyan"
 progressbar_color = "black"
@@ -12,7 +11,7 @@ visualizer_look = "─┃"
 visualizer_fifo_path = "/tmp/mpd.fifo"
 visualizer_in_stereo = "no"
 visualizer_sync_interval = "20"
-visualizer_output_name = "FIFO"
+visualizer_output_name = "mpd_fifo"
 visualizer_type = "spectrum"
 
 song_list_format = "{{ $5%a » }{$8%t $R$8%l « }}|{%f}"

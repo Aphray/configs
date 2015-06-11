@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+#Restart/Logout/Shutdown Dialog
+
+source ~/.scripts/source
+DIRNAME=$(cd `dirname $0` && pwd)
+
+logout_timer(){
+	#Timer
+	
+	t=7 #Number of seconds
+	until [[ "$t" == 0 ]]; do
+		echo -e "^fg($RED)^pa(+15)Logging out in ^fg($YELLOW)$t^fg() seconds ^ca(1, pkill -f log_shut_dialog)^ib(1)^pa(+175)^fg(#0D0D0D)^r(75x15)^p(-75)^fg($LIGHTRED)^ro(75x15)^p(-55)CANCEL^fg()^ca()"
+		t=$(( $t - 1 ))
+		sleep 1
+	done | dzen2 -x '551' -y '368' -w '265' -h '30' -ta l 
+	pkill bspwm
+}
+
+shutdown_timer(){
+	t=10
+	until [[ "$t" == 0 ]]; do
+		echo "^pa(+15)^fg($RED)Shutting down in ^fg($YELLOW)$t^fg() seconds ^ca(1, sudo shutdown now)^ib(1)^pa(+185)^fg(#0D0D0D)^r(75x15)^p(-75)^fg($BLUE)^ro(75x15)^p(-45)NOW^fg()^ca() ^ca(1, sudo reboot now)^ib(1)^pa(+270)^fg(#0D0D0D)^r(75x15)^p(-75)^fg($LIGHTBLUE)^ro(75x15)^p(-55)REBOOT^fg()^ca() ^ca(1, pkill log_shut_dialog)^ib(1)^pa(+355)^fg(#0D0D0D)^r(75x15)^p(-75)^fg($LIGHTRED)^ro(75x15)^p(-55)CANCEL^fg()^ca()"
+		t=$(( $t - 1 ))
+		sleep 1
+	done | dzen2 -x '460' -y '368' -w '445' -h '30' -ta l
+	sudo shutdown now
+}
+
+$@
+		
